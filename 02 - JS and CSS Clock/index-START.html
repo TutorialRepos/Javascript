@@ -65,7 +65,7 @@
   </style>
 
   <script>
-  function Tik() {
+  function Clock() {
     now = new Date();
     seconds = now.getSeconds();
     minutes = now.getMinutes();
@@ -89,9 +89,9 @@
     hour.style.transform = `rotate(${hourHand}deg)`;
     hour.style.transformOrigin = 'right';
   }
-  setInterval(Tik, 1000);
+  setInterval(Clock, 1000);
 
-  Tik()
+  Clock()
   </script>
 </body>
 </html>
