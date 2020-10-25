@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./scss/index.css">
+    <style>
+      
+    :root {
+      font-family: monospace;
+      --lt: whitesmoke;
+      --dk: gray;
+      --bk: black;
+      --wt: white;
+    }
+      
+      body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .card {
+      margin: 0 5px 0 5px;
+      border: 1px solid;
+    }
+
+    .card > div:first-child {
+      text-align: center;
+    }
+
+    .light {
+      --bd-color: gainsboro;
+    }
+    
+    .light > .card {
+      background-color: white;
+      border-color: var(--bd-color);
+    }
+    
+    .light > .card div:first-child{
+      background-color: gainsboro;
+      color: black;
+    }
+
+    .light > .card div:nth-child(3){
+      color: black;
+      background-color: whitesmoke;
+    }
+
+    .dark > .card {
+      background-color: gainsboro;
+      border-color: white;
+    }
+    
+    .dark > .card div:first-child{
+      background-color: black;
+      color: gainsboro;
+    }
+
+    .dark > .card div:nth-child(3){
+      color: whitesmoke;
+      background-color: black;
+    }
+
+    div 
+  </style>
+  <title>Document</title>
+</head>
+<body>
+
+<div>
+  <input type="radio" name="tab" value="0" class="switch" checked="checked"'> 1 </button>
+  <input type="radio" name="tab" value="1" class="switch"> 2 </button>
+</div>
+
+<div class="container light">
+  <div class="card">
+    <div>
+        title
+    </div>
+      <div>
+        description
+      </div>
+    <div>
+        extra
+    </div>
+  </div>
+
+  <script>
+
+   /* current working script */
+    const sw = document.querySelectorAll('.switch')
+    sw.forEach(input => input.addEventListener('click', modify));
+
+    function modify(){
+      const data = ['light', 'dark']
+      const container_element = document.getElementsByClassName('container')[0]
+
+      for (one in data) container_element.classList.remove(data[one]);
+      container_element.classList.add(`${data[this.value]}`);
+    }
+    /* end of current working script */
+  
+  </script>
+</body>
+</html>
