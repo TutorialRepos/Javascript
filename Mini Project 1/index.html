@@ -189,10 +189,10 @@
         hour = document.querySelector('.hour_hand');
 
         document.querySelector('.face').style.backgroundColor = `hsl(${secondhand}, 100%, 50%)`
-        document.querySelector('.hour_hand').style.backgroundColor = `hsl(${hourhand}, 100%, 75%)`
-        document.querySelector('.min_hand').style.backgroundColor = `hsl(${minutehand}, 100%, 80%)`     
-        document.querySelector('.second_hand').style.backgroundColor = `hsl(${secondhand}, 100%, 85%)`
-        document.querySelector('.second_hand').style.transform = `translate3d(-${secondhand}px, -${secondhand}px, -${hourhand}px)`
+        hour.style.backgroundColor = `hsl(${hourhand}, 100%, 75%)`
+        minute.style.backgroundColor = `hsl(${minutehand}, 100%, 80%)`     
+        second.style.backgroundColor = `hsl(${secondhand}, 100%, 85%)`
+        second.style.transform = `translate3d(-${secondhand}px, -${secondhand}px, -${hourhand}px)`
         document.querySelector('.sample').innerHTML = now;
       }
 
