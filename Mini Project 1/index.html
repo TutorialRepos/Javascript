@@ -8,10 +8,11 @@
       
     :root {
       font-family: monospace;
-      --lt: whitesmoke;
-      --dk: gray;
-      --bk: black;
-      --wt: white;
+
+      --primary: black;
+      --support: whitesmoke;
+      --support-lt: #f7f7f7;
+      --support2: white;
     }
       
       body {
@@ -19,93 +20,209 @@
         margin: 0;
     }
 
-    .container {
+    .main {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
+      height: 98vh;
+      padding-top: 10px;
+    }
+
+    .card_container {
       display: flex;
       justify-content: space-evenly;
+      flex-direction: row;
+      box-sizing: border-box;
+      width: 100%;
     }
 
-    .card {
-      margin: 0 5px 0 5px;
-      border: 1px solid;
+    .circle {
+      transition: .25s;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: transparent;
+      color: transparent;
+      font-size: 0;
     }
 
-    .card > div:first-child {
-      text-align: center;
+    .square {
+      font-size: 1.2em;
+      transition: .25s;
+      border-radius: 5px;
+      width: 20%;
+      height: 300px;
+      color: var(--primary);
+      background-color: var(--support);
+      border: 1px solid var(--support2);
     }
 
-    .light {
-      --bd-color: gainsboro;
-    }
-    
-    .light > .card {
-      background-color: white;
-      border-color: var(--bd-color);
-    }
-    
-    .light > .card div:first-child{
-      background-color: gainsboro;
-      color: black;
+    .square:hover {
+      background-color:var(--support-lt);
+      box-shadow: 0px 2px 3px;
     }
 
-    .light > .card div:nth-child(3){
-      color: black;
-      background-color: whitesmoke;
+    .article > p:first-child {
+      transition: .1s;
     }
 
-    .dark > .card {
-      background-color: gainsboro;
-      border-color: white;
-    }
-    
-    .dark > .card div:first-child{
-      background-color: black;
-      color: gainsboro;
+    .article > p:nth-child(2) {
+      transition: .2s;
     }
 
-    .dark > .card div:nth-child(3){
-      color: whitesmoke;
-      background-color: black;
+    .article > p:nth-child(3) {
+      transition: .3s;
+      
     }
 
-    div 
+    .article > p {
+      padding-left: 10px;
+      transition-timing-function: cubic-bezier(0.46, -0.29, 0, 1.57);
+    }
+
+    .clock {
+      width: 150px;
+      height: 150px;
+      border: 1px solid black;
+      border-radius: 50%;
+    }
+
+    .face {
+      transition: .25s;
+      transition-timing-function: ease-in;
+      width: 140px;
+      height: 140px;
+      border: 1px solid black;
+      border-radius: 50%;
+      position: relative;
+      left: 4px;
+      top: 4px;
+    }
+
+    .hand {
+      width: 25px;
+      height: 25px;
+      border: 1px solid black;
+      border-radius: 50%;
+      position: absolute;
+      margin: 40% 40%;
+    }
+
+    .hour_hand {
+      margin: 0 40%;
+      border-color: red;
+    }
+
+    .min_hand {
+      margin: 20% 60%;
+      border-color: blue;
+    }
+
+    .second_hand {
+      transition: 1.5s;
+      transition-timing-function: ease;
+    }
+
+    .sample {
+      font-size: 1.4em;
+    }
+
   </style>
-  <title>Document</title>
+  <title>Mini Project Day 4</title>
 </head>
 <body>
-
-<div>
-  <input type="radio" name="tab" value="0" class="switch" checked="checked"'> 1 </button>
-  <input type="radio" name="tab" value="1" class="switch"> 2 </button>
-</div>
-
-<div class="container light">
-  <div class="card">
+ 
+<div class="main">  
+  <div class="switch_container">
+    <button value="0" class="switch">about</button>
+    <button value="1" class="switch">projects</button>
+    <button value="2" class="switch">contact</button>
     <div>
-        title
-    </div>
-      <div>
-        description
-      </div>
-    <div>
-        extra
+      <input type="radio" name="theme" class="themes light" value="0">light
+      <input type="radio" name="theme" class="themes dark" value="1" checked="checked">dark
     </div>
   </div>
+  <div class="card_container">
+      <div class="article circle">
+        <p>ABOUT</p>
+        <p>Hi, I'm Chad</p>
+        <p>A Web Developer</p>
+      </div>
+      <div class="article circle">
+        <p>PROJECTS</p>
+        <p>TODO</p>
+      </div>
+      <div class="article circle">
+        <p>CONTACT</p>
+        <p>Github </p>
+        <p>LinkedIn </p>
+      </div>
+      </div>
+      <div class="sample">
+
+      </div>
+      <div class="clock">
+        <div class="face">
+          <div class="hand hour_hand"></div>
+          <div class="hand min_hand"></div>
+          <div class="hand second_hand"></div>
+        </div>
+      </div>
+    </div>
 
   <script>
+    const switches = document.querySelectorAll('.switch');
+    const theme = document.querySelectorAll('.themes');
+      function the_world() {
+        let now = new Date();
+        seconds = now.getSeconds();
+        minutes = now.getMinutes();
+        hours = now.getHours();
 
-   /* current working script */
-    const sw = document.querySelectorAll('.switch')
-    sw.forEach(input => input.addEventListener('click', modify));
+        secondhand = ((seconds / 60) * 360);
+        minutehand = ((minutes / 60) * 100);
+        hourhand = ((hours / 12) * 100);
 
-    function modify(){
-      const data = ['light', 'dark']
-      const container_element = document.getElementsByClassName('container')[0]
+        second = document.querySelector('.second_hand');
+        minute = document.querySelector('.min_hand');
+        hour = document.querySelector('.hour_hand');
 
-      for (one in data) container_element.classList.remove(data[one]);
-      container_element.classList.add(`${data[this.value]}`);
+        document.querySelector('.face').style.backgroundColor = `hsl(${secondhand}, 100%, 50%)`
+        document.querySelector('.hour_hand').style.backgroundColor = `hsl(${hourhand}, 100%, 75%)`
+        document.querySelector('.min_hand').style.backgroundColor = `hsl(${minutehand}, 100%, 80%)`     
+        document.querySelector('.second_hand').style.backgroundColor = `hsl(${secondhand}, 100%, 85%)`
+        document.querySelector('.second_hand').style.transform = `translate3d(-${secondhand}px, -${secondhand}px, -${hourhand}px)`
+        document.querySelector('.sample').innerHTML = now;
+      }
+
+    setInterval(the_world, 1000)
+
+
+    switches.forEach(check => check.addEventListener('click', modify_circle));
+    theme.forEach(check => check.addEventListener('click', change_theme));
+
+    function modify_circle(){
+      document.getElementsByClassName("article")[this.value].classList.toggle("square")
     }
-    /* end of current working script */
-  
-  </script>
+    
+    function change_theme(){
+    // add/edit color themes on :root and in here
+      const themes = [
+        { 'primary': '#0000db', 'support': '#3459ff4b', 'support2': 'white', 'support-lt': '#3459ff1f'},
+        { 'primary': 'black', 'support': 'whitesmoke', 'support2': 'white', 'support-lt': '#f7f7f7'},
+      ]
+      document.documentElement.style.setProperty('--primary', themes[this.value].primary)
+      document.documentElement.style.setProperty('--support', themes[this.value].support)
+      document.documentElement.style.setProperty('--support2', themes[this.value].support2)  
+      document.documentElement.style.setProperty('--support2', themes[this.value].support-lt)  
+    }
+
+    function reference(){
+      // dump any script here to prevent changing windows
+      // remove during clean-up
+    }
+
+</script>
 </body>
 </html>
