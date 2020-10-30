@@ -36,8 +36,6 @@ CSS and JS variables
   - document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
   - inputs.forEach(input => input.addEventListener('event', func));
 
-
-
 ## Mini-project
 Create a random mini project that 
 involves the skills learned in 1 to 3
