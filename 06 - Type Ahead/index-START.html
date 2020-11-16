@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const suggestions = document.querySelector('.suggestions')
+
+const cities = []
+
+fetch(endpoint)
+            .then(blob => blob.json())
+            .then(data => cities.push(...data))
+
+let search = document.querySelector('.search')
+search.addEventListener('keyup', displayMatches)
+
+// WRONG 
+// function findMatches(data, blob){
+//   let search = new RegExp(data, 'ig')
+//   return blob.filter(one => one.city.match(search))
+// }
+
+function findMatches(data, blob){
+  return cities.filter(one => {
+    const regx = new RegExp(data, 'gi')
+    return one.city.match(regx) || one.state.match(regx)
+  })
+}
+
+function displayMatches(){
+  let matches = findMatches(this.value, cities)
+  let location = matches.map(one => {
+  const regx = new RegExp(this.value, 'gi')
+  const cityName = one.city.replace(regx, `<span class="hl">${this.value}</span>`)
+  const stateName = one.state.replace(regx, `<span class="hl">${this.value}</span>`)
+  const population = addComma(one.population)
+  return `
+    <li> 
+      <span class="name">${ stateName }, ${ cityName }</span> 
+      <span class="population">${ population }</span>
+      </li>`
+  }).join(' ')
+  suggestions.innerHTML = location
+}
+
+function addComma(arr){
+  let container = strToArrayReverse(arr);
+  container = addCommaToStr(container);
+  container = arraytoStringReverse(container)
+  return container;
+}
+
+function addCommaToStr(arr){
+  const arl = arr.length
+  for(x=0, y=0; x < arl; x++){
+    if(x%3 == 0 && x != 0){
+      arr.splice(x+y,0,',');
+      y++;
+      }
+    }
+    return arr
+}
+
+function strToArrayReverse(str){
+  let arr = [...str].reverse()
+  return arr
+}
+
+function arraytoStringReverse(arr){
+  let str = arr.reverse().join('')
+  return str
+}
+
+function reference(){
+/*
+  city: "Valley Stream"
+  growth_from_2000_to_2013: "3.6%"
+  latitude: 40.6642699
+  longitude: -73.70846449999999
+  population: "37659"
+  rank: "977"
+  state: "New York"
+*/
+}
+
+</script>
+</body>
+</html>
