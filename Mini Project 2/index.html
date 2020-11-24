@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
+  <style>
+    .listOfData {
+      font-family: monospace;
+      padding: 20px 0;
+    }
+  </style>
 </head>
-<style>
-  .welcome {
-    font-family: monospace;
-    font-size: 1.2em;
-    color: darkblue;
-  }
-</style>
-<body>
 
-  <div class="welcome"></div>
-  
-  <script>
-    const intro = document.querySelector(".welcome")
-    intro.innerHTML = 'Welcome! Create your own mini-project';
-  </script>
+<body>
+  <input type="search" id="finder" placeholder="SEARCH" name="search">
+  <select name="category" id="category">
+    <option value="starships" selected>starships</option>
+    <option value="planets">planets</option>
+    <option value="people">people</option>
+    <option value="films">films</option>
+    <option value="species">species</option>
+    <option value="vehicles">vehicles</option>
+  </select>
+</input>
+
+  <div class="listOfData">
+    Please pick a category and begin searching
+  </div>
+  <script src="./index.js" defer></script>
 </body>
 </html>

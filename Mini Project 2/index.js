@@ -1,30 +1,29 @@
-let search = document.querySelector('.search')
-search.addEventListener('keyup', renderData )
+const finder = document.getElementById('finder')
+const pick = document.querySelector('#category')
 
-function getUrl(pick){
-  const urls = [
-    '/starships/',
-    '/planets/',
-    '/people/',
-    '/films/',
-    '/species/',
-    '/vehicles/',
-  ]
-  return urls[pick]
-}
+finder.addEventListener('search', renderData )
+finder.addEventListener('keyup', renderData )
+pick.addEventListener('change', createUrl)
 
-async function getData(){
-  let url = 'https://swapi.dev/api/starships/';
+async function getData(pick){
   try {
+      url = pick;
       let res = await fetch(url);
       return await res.json();
   } catch (error) {
-      console.log(error);
+      console.error('getData error: ', error)
   }
 }
 
+function createUrl(){
+  let url = document.querySelector('#category').value
+  return `https://swapi.dev/api/${url}/`
+}
+
 async function renderData(){
-  const blob = await getData()
+  try {
+  const url = createUrl();
+  const blob = await getData(url)
   const found = new RegExp(this.value, 'gi')
   const data = blob.results.filter(one => one.name.match(found))
   let html = '';
@@ -40,35 +39,23 @@ async function renderData(){
       </ul>
       `
       html += segment;
-  });
-
-  let container = document.querySelector('.listOfData');
-  container.innerHTML = html;
+  })
+    let container = document.querySelector('.listOfData');
+    container.innerHTML = html;
+  } catch(error) {
+    throw new TypeError(error)
+    console.error(`renderData error: ${error}`)
+  }
 }
 
 renderData()
 
 /*
-notes to self:
+  either create a dropdown to pick a topic 
+  or
+  get all the data from different urls and combine
 
-make a function to make a list from an array
-and add data.films after
+  add themes
+  and design the page a little according to the topic
 
-try to make these into modules if you can
-
-getData logic:
-  get url
-  try await fetch
-    return .json
-  catch err
-  no other return except on try
-
-renderData logic:
-  await getData
-  string container
-  loop through data
-  create text according to data
-  render data via innerHTML
-
-call f()
 */
