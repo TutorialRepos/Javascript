@@ -1,84 +1,54 @@
-const finder = document.getElementById('finder')
-const pick = document.querySelector('#category')
 const container = document.querySelector('.listOfData');
-
+const finder = document.getElementById('finder')
 finder.addEventListener('click', renderData);
 finder.addEventListener('search', renderData);
 finder.addEventListener('keyup', renderData);
-pick.addEventListener('change', renderData);
+
+// const pick = document.querySelector('#category')
+// pick.addEventListener('change', renderData);
 
 const data = []
 
-  // fetch(createUrl())
-  //   .then(blob => blob.json())
-  //   .then(data => test.push(...data.results))
-
 const starships = fetch('https://swapi.dev/api/starships/')
     .then(blob => blob.json())
-    .catch(err => console.error(err))
-
-const people = fetch('https://swapi.dev/api/people/')
-    .then(blob => blob.json())
-    .catch(err => console.error(err))
+    .catch(err => console.error('fetching starships: ', err))
 
 const planets = fetch('https://swapi.dev/api/planets/')
     .then(blob => blob.json())
-    .catch(err => console.error(err))
+    .catch(err => console.error('fetching planets: ',err))
 
-Promise.all([starships, people, planets])
+const people = fetch('https://swapi.dev/api/people/')
+    .then(blob => blob.json())
+    .catch(err => console.error('fetching people: ',err))
+
+Promise.all([starships, planets, people])
   .then(values => data.push(...values))
+
+function findMatches(findMe, data, index){
+  return data[index].results.filter(values => {
+    const regx = new RegExp(findMe, 'gi')
+    return values.name.match(regx)
+  })
+}
+
+function renderData(){
+// TODO  
+}
 
 // target: use map and filter on data
 
-async function getData(pick){
-  try {
-      url = pick;
-      let res = await fetch(url);
-      return await res.json();
-  } catch (error) {
-      console.error('getData error: ', error)
-  }
-}
-
-function createUrl(){
-  let url = document.querySelector('#category').value
-  return `https://swapi.dev/api/${url}/`
-}
-
-async function renderData(){
-  try {
-  const url = createUrl();
-  const blob = await getData(url)
-  const found = new RegExp(this.value, 'gi')
-  const data = blob.results.filter(one => one.name.match(found))
-  let html = '';
-  data.forEach(one => {
-      let segment = `
-      <ul>
-      <li>${one.name}</li>
-      <li>${one.model}</li>
-      <li>${one.manufacturer}</li>
-      <li>${one.cost_in_credits}</li>
-      <li>${one.crew}</li>
-      <li>${one.passengers}</li>
-      </ul>
-      `
-      html += segment;
-  })
-    container.innerHTML = html;
-  } catch(error) {
-    throw new TypeError(error)
-    console.error(`renderData error: ${error}`)
-  }
-}
-
-renderData()
-
-// target: 
-// get all data on load or defer
-// use map
-
 // wrong implementation
+
+// async function getData(pick){
+//   try {
+//       url = pick;
+//       let res = await fetch(url);
+//       return await res.json();
+//   } catch (error) {
+//       console.error('getData error: ', error)
+//   }
+// }
+
 // async function renderData(){
 //   try {
 //   const url = createUrl();
