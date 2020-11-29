@@ -4,8 +4,8 @@ finder.addEventListener('click', renderData);
 finder.addEventListener('search', renderData);
 finder.addEventListener('keyup', renderData);
 
-// const pick = document.querySelector('#category')
-// pick.addEventListener('change', renderData);
+const pick = document.querySelector('#category')
+window.addEventListener('load', renderData)
 
 const data = []
 
@@ -24,79 +24,37 @@ const people = fetch('https://swapi.dev/api/people/')
 Promise.all([starships, planets, people])
   .then(values => data.push(...values))
 
-function findMatches(findMe, data, index){
-  return data[index].results.filter(values => {
+function findMatches(findMe, data){
+  return data[pick.value].results.filter(values => {
     const regx = new RegExp(findMe, 'gi')
     return values.name.match(regx)
   })
 }
 
 function renderData(){
-// TODO  
+  let matches = findMatches(this.value, data)
+  const item = matches.map((value, index )=> {
+    const regx = new RegExp(this.value, 'gi')
+    const name = value.name.replace(regx, `<span class='hl'>${this.value}</span>`)
+    const keys = infoAdditional(matches, index);
+    return `
+    <div class="info">
+      <p>${index}: ${name}</p>
+      <div class="supportInfo">${keys}</div>
+    </div>
+    `
+  }).join(' ')
+  container.innerHTML = item
 }
 
-// target: use map and filter on data
+function infoAdditional(data, index){
+  const keyList = Object.keys(data[index])
+  const display = keyList.map(values => {
+    if(values !== 'name') {
+      return `<p>${values}: ${data[index][values]}</p>`
+    }
+  }).join(' ')
+  return display  
+}
 
-// wrong implementation
-
-// async function getData(pick){
-//   try {
-//       url = pick;
-//       let res = await fetch(url);
-//       return await res.json();
-//   } catch (error) {
-//       console.error('getData error: ', error)
-//   }
-// }
-
-// async function renderData(){
-//   try {
-//   const url = createUrl();
-//   const blob = await getData(url)
-//   const found = new RegExp(this.value, 'gi')
-//   const data = blob.results.filter(one => one.name.match(found))
-//   // const matching = data.name.replace(regx, `<span class="hl">${this.value}</span>`)
-//   let html = '';
-//   data.forEach(one => {
-//       let segment = `
-//       <ul>
-//       <li>${one.name}</li>
-//       <li>${one.model}</li>
-//       <li>${one.manufacturer}</li>
-//       <li>${one.cost_in_credits}</li>
-//       <li>${one.crew}</li>
-//       <li>${one.passengers}</li>
-//       </ul>
-//       `
-//       html += segment;
-//   })
-//     container.innerHTML = html;
-//   } catch(error) {
-//     throw new TypeError(error)
-//     console.error(`renderData error: ${error}`)
-//   }
-// }
-
-/*
-  either create a dropdown to pick a topic 
-      made the dropdown option
-      and the time it takes to load per list is really slow
-      
-      will try to use promise all tomorrow
-      get everything while the page is loading
-          still learning promises. need to finish
-          the book to go deeper
-
-          just going to finish the mini project 
-          first
-
-  add themes
-  and design the page a little according to the topic
-
-  SAMPLE
-    async function gather(){
-    let starships = await fetch('https://swapi.dev/api/starships/')
-    let people = await fetch('https://swapi.dev/api/people/')
-    let planets = await fetch('https://swapi.dev/api/planets/')
-
-*/
+renderData()
