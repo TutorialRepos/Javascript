@@ -1,0 +1,24 @@
+.hl {
+  color: blue;
+  text-transform: uppercase;
+}
+
+.info {
+  transition: ease-in-out .3s;
+  border: 1px solid lightgray;
+  padding: 0 5px;
+  width: 45%;
+}
+
+.info:hover {
+  background-color: rgb(215, 236, 255)
+}
+
+.supportInfo {
+  transition: .4s;
+  font-size: 0;
+}
+
+.info:hover > .supportInfo {
+  font-size: 1em;
+}
