@@ -28,14 +28,8 @@ fetch(endpoint)
 let search = document.querySelector('.search')
 search.addEventListener('keyup', displayMatches)
 
-// WRONG 
-// function findMatches(data, blob){
-//   let search = new RegExp(data, 'ig')
-//   return blob.filter(one => one.city.match(search))
-// }
-
 function findMatches(data, blob){
-  return cities.filter(one => {
+  return blob.filter(one => {
     const regx = new RegExp(data, 'gi')
     return one.city.match(regx) || one.state.match(regx)
   })
@@ -52,7 +46,7 @@ function displayMatches(){
     <li> 
       <span class="name">${ stateName }, ${ cityName }</span> 
       <span class="population">${ population }</span>
-      </li>`
+    </li>`
   }).join(' ')
   suggestions.innerHTML = location
 }
