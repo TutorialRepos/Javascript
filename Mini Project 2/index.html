@@ -6,28 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="./index.css">
-  <style>
-    .listOfData {
-      font-family: monospace;
-      padding: 20px 0;
-    }
-  </style>
+  <link rel="stylesheet" href="./normalize.css">
 </head>
 
 <body>
-  <input type="search" id="finder" placeholder="SEARCH" name="search">
+  <input type="search" id="finder" placeholder="SEARCH" name="search" value="">
   <select name="category" id="category">
-    <option value="starships" selected>starships</option>
-    <option value="planets">planets</option>
-    <option value="people">people</option>
-    <option value="films">films</option>
-    <option value="species">species</option>
-    <option value="vehicles">vehicles</option>
-  </select>
-</input>
+    <option value=0 selected>starships</option>
+    <option value=1>planets</option>
+    <option value=2>people</option>
+  </select> 
+  </input>
 
   <div class="listOfData">
-    Please pick a category and begin searching
+    <p id="intro">LOADING . . .</p>
   </div>
   <script src="./index.js" defer></script>
 </body>

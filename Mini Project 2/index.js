@@ -1,10 +1,14 @@
 const container = document.querySelector('.listOfData');
+
 const finder = document.getElementById('finder')
 finder.addEventListener('click', renderData);
 finder.addEventListener('search', renderData);
 finder.addEventListener('keyup', renderData);
+finder.addEventListener('load', targetArticles)
+finder.addEventListener('click', targetArticles)
 
 const pick = document.querySelector('#category')
+
 window.addEventListener('load', renderData)
 
 const data = []
@@ -22,7 +26,12 @@ const people = fetch('https://swapi.dev/api/people/')
     .catch(err => console.error('fetching people: ',err))
 
 Promise.all([starships, planets, people])
-  .then(values => data.push(...values))
+  .then(values => {
+      const intro = document.querySelector('#intro');
+      intro.innerHTML = 'You may start searching';
+      return data.push(...values);
+    })
+  .catch(err => err)
 
 function findMatches(findMe, data){
   return data[pick.value].results.filter(values => {
@@ -35,26 +44,48 @@ function renderData(){
   let matches = findMatches(this.value, data)
   const item = matches.map((value, index )=> {
     const regx = new RegExp(this.value, 'gi')
-    const name = value.name.replace(regx, `<span class='hl'>${this.value}</span>`)
-    const keys = infoAdditional(matches, index);
+    const name = value.name.replace(regx, `
+      <span class='hl'>${this.value}</span>
+    `)
+    const keys = additionalInfo(matches, index);
     return `
-    <div class="info">
-      <p>${index}: ${name}</p>
-      <div class="supportInfo">${keys}</div>
-    </div>
+    <article>
+      <h4>${name}</h4>
+      <ul class="details redacted">
+        ${keys}
+      </ul>
+    </article>
     `
   }).join(' ')
   container.innerHTML = item
+  targetArticles()
 }
 
-function infoAdditional(data, index){
+function targetArticles(){
+  const a = document.querySelectorAll('article')
+  a.forEach(one => one.addEventListener('click', modifyArticles))
+}
+
+function modifyArticles(){
+  const detail = this.querySelector('.details')
+  detail.classList.toggle('redacted');
+}
+
+function additionalInfo(data, index){
   const keyList = Object.keys(data[index])
   const display = keyList.map(values => {
     if(values !== 'name') {
-      return `<p>${values}: ${data[index][values]}</p>`
+      return `<li>${values}: ${data[index][values]}</li>`
     }
-  }).join(' ')
+  }).join('')
   return display  
 }
 
+/*
+  next target
+    fix films 
+    and 
+    date
+*/
+                                 
 renderData()
