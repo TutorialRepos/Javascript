@@ -1,15 +1,18 @@
 const container = document.querySelector('.listOfData');
-
+const pick = document.querySelector('#category')
 const finder = document.getElementById('finder')
+const intro = document.querySelector('#intro');
+const main_loader = document.querySelector('#main_loader');
+
 finder.addEventListener('click', renderData);
 finder.addEventListener('search', renderData);
 finder.addEventListener('keyup', renderData);
+
 finder.addEventListener('load', targetArticles)
 finder.addEventListener('click', targetArticles)
 
-const pick = document.querySelector('#category')
-
 window.addEventListener('load', renderData)
+
 
 const data = []
 
@@ -27,8 +30,8 @@ const people = fetch('https://swapi.dev/api/people/')
 
 Promise.all([starships, planets, people])
   .then(values => {
-      const intro = document.querySelector('#intro');
-      intro.innerHTML = 'You may start searching';
+      intro.innerHTML = 'Data is ready. Have a nice day';
+      main_loader.remove();
       return data.push(...values);
     })
   .catch(err => err)

@@ -45,3 +45,21 @@ article > h4 {
   list-style: none;
 }
 
+.loader {
+  border: 15px solid #f3f3f3;
+  border-top: 15px solid darkblue;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: samsara 2s linear infinite;
+}
+
+@keyframes samsara {
+  from {
+    transform: rotate(0deg)
+  }
+  
+  to {
+    transform: rotate(360deg)
+  }
+}
