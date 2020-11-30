@@ -51,6 +51,7 @@ function renderData(){
       <span class='hl'>${this.value}</span>
     `)
     const keys = additionalInfo(matches, index);
+
     return `
     <article>
       <h4>${name}</h4>
@@ -77,6 +78,9 @@ function modifyArticles(){
 function additionalInfo(data, index){
   const keyList = Object.keys(data[index])
   const display = keyList.map(values => {
+    if(values === 'created' || values === 'edited') {
+      data[index][values] = shortenDateString(data[index][values])  
+    }
     if(values !== 'name') {
       return `<li>${values}: ${data[index][values]}</li>`
     }
@@ -84,11 +88,20 @@ function additionalInfo(data, index){
   return display  
 }
 
+function shortenDateString(str){
+  return str.slice(0,10)
+}
+
+
+
 /*
   next target
-    fix films 
+    fix films,
+    residents 
     and 
     date
+
+  
 */
                                  
 renderData()
