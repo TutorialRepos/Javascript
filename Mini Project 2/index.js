@@ -81,11 +81,22 @@ function additionalInfo(data, index){
     if(values === 'created' || values === 'edited') {
       data[index][values] = shortenDateString(data[index][values])  
     }
-    if(values !== 'name') {
+    if(values === 'films') {
+      data[index][values] = arrayToHtml(data[index][values])
+    }
+    if(values !== 'name' || values !== 'films') {
       return `<li>${values}: ${data[index][values]}</li>`
     }
   }).join('')
   return display  
+}
+
+function arrayToHtml(arr){
+  if(typeof arr == 'string') return arr;
+  return arr.map(entry => {
+    return `<li>${entry}</li>`
+  }).join(' ')
+
 }
 
 function shortenDateString(str){
