@@ -100,16 +100,4 @@ function shortenDateString(str){
   return str.slice(0,10)
 }
 
-renderData()
-
-/*
-  next target
-    fix films,
-    residents 
-    and 
-    date
-
-  check the other categories
-  and fix accordingly
-*/
-                                 
+renderData()                                 
