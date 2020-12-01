@@ -13,7 +13,6 @@ finder.addEventListener('click', targetArticles)
 
 window.addEventListener('load', renderData)
 
-
 const data = []
 
 const starships = fetch('https://swapi.dev/api/starships/')
@@ -51,7 +50,6 @@ function renderData(){
       <span class='hl'>${this.value}</span>
     `)
     const keys = additionalInfo(matches, index);
-
     return `
     <article>
       <h4>${name}</h4>
@@ -81,11 +79,11 @@ function additionalInfo(data, index){
     if(values === 'created' || values === 'edited') {
       data[index][values] = shortenDateString(data[index][values])  
     }
-    if(values === 'films') {
+    if(Array.isArray(data[index][values])) {
       data[index][values] = arrayToHtml(data[index][values])
     }
-    if(values !== 'name' || values !== 'films') {
-      return `<li>${values}: ${data[index][values]}</li>`
+    if(values !== 'name') {
+      return `<li>${values}: ${data[index][values].toUpperCase()}</li>`
     }
   }).join('')
   return display  
@@ -96,14 +94,13 @@ function arrayToHtml(arr){
   return arr.map(entry => {
     return `<li>${entry}</li>`
   }).join(' ')
-
 }
 
 function shortenDateString(str){
   return str.slice(0,10)
 }
 
-
+renderData()
 
 /*
   next target
@@ -112,7 +109,7 @@ function shortenDateString(str){
     and 
     date
 
-  
+  check the other categories
+  and fix accordingly
 */
                                  
-renderData()
