@@ -2,7 +2,8 @@ const container = document.querySelector('.listOfData');
 const pick = document.querySelector('#category')
 const finder = document.getElementById('finder')
 const intro = document.querySelector('#intro');
-const main_loader = document.querySelector('#main_loader');
+const mainLoader = document.querySelector('#mainLoader');
+const calendar = document.querySelector('#calendar');
 
 finder.addEventListener('click', renderData);
 finder.addEventListener('search', renderData);
@@ -13,7 +14,9 @@ finder.addEventListener('click', targetArticles)
 
 window.addEventListener('load', renderData)
 
-const data = []
+const data = [];
+
+const session = {};
 
 const starships = fetch('https://swapi.dev/api/starships/')
     .then(blob => blob.json())
@@ -29,9 +32,13 @@ const people = fetch('https://swapi.dev/api/people/')
 
 Promise.all([starships, planets, people])
   .then(values => {
-      intro.innerHTML = 'Data is ready. Have a nice day';
-      main_loader.remove();
-      return data.push(...values);
+      try {
+        intro.innerHTML = 'Data is ready, have a nice day.';
+        mainLoader.remove();
+        return data.push(...values);
+      } catch(err){
+        console.log(err)
+      }
     })
   .catch(err => err)
 
@@ -43,24 +50,30 @@ function findMatches(findMe, data){
 }
 
 function renderData(){
-  let matches = findMatches(this.value, data)
-  const item = matches.map((value, index )=> {
-    const regx = new RegExp(this.value, 'gi')
-    const name = value.name.replace(regx, `
-      <span class='hl'>${this.value}</span>
-    `)
-    const keys = additionalInfo(matches, index);
-    return `
-    <article>
-      <h4>${name}</h4>
-      <ul class="details redacted">
-        ${keys}
-      </ul>
-    </article>
-    `
-  }).join(' ')
-  container.innerHTML = item
-  targetArticles()
+  try{
+    let matches = findMatches(this.value, data)
+    const item = matches.map((value, index ) => {
+      const regx = new RegExp(this.value, 'gi')
+      const name = value.name.replace(regx, `
+        <span class='hl'>${this.value}</span>
+      `)
+      const keys = additionalInfo(matches, index);
+      return `
+      <article>
+        <h4>${name}</h4>
+        <ul class="details redacted">
+          ${keys}
+        </ul>
+      </article>
+      `
+    }).join(' ')
+    container.innerHTML = item
+    targetArticles()
+  } catch(err) {
+    if (err instanceof TypeError){
+      session['renderData'] = err
+    }
+  }
 }
 
 function targetArticles(){
@@ -100,4 +113,4 @@ function shortenDateString(str){
   return str.slice(0,10)
 }
 
-renderData()                                 
+renderData();                                 
