@@ -3,11 +3,15 @@ body {
 }
 
 article {
+  transition: ease .3s;
   display: flex;
   flex-direction: column;
   border: 1px solid black;  
   min-width: 50%;
   max-width: 300px;
+  border: 1px solid lightgray;
+  padding: 0 5px;
+  overflow: hidden; 
 }
 
 article > h4 {
@@ -38,13 +42,7 @@ nav ul > li > a {
   text-decoration: none;
 }
 
-.info {
-  transition: ease-in-out  .5s;
-  border: 1px solid lightgray;
-  padding: 0 5px;
-}
-
-.info:hover {
+article:hover {
   background-color: rgb(215, 236, 255)
 }
 
@@ -70,6 +68,7 @@ nav ul > li > a {
   width: 28px;
   height: 28px;
   animation: samsara 2s linear infinite;
+  margin: 0 auto;
 }
 
 @keyframes samsara {
@@ -89,3 +88,14 @@ nav ul > li > a {
   text-align: center;
 }
 
+.listOfData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* 
+target:
+
+*/
