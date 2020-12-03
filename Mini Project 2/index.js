@@ -1,9 +1,11 @@
 const container = document.querySelector('.listOfData');
 const pick = document.querySelector('#category')
-const finder = document.getElementById('finder')
+const finder = document.querySelector('#finder')
 const intro = document.querySelector('#intro');
 const mainLoader = document.querySelector('#mainLoader');
 const calendar = document.querySelector('#calendar');
+const errorMessage = document.querySelector('.error');
+const errorBlob = document.querySelector('.error');
 
 finder.addEventListener('click', renderData);
 finder.addEventListener('search', renderData);
@@ -15,30 +17,46 @@ finder.addEventListener('click', targetArticles)
 window.addEventListener('load', renderData)
 
 const data = [];
-
+const errors = {};
+  errors.loading = [];
+  errors.check_for_error_load = false;
 const session = {};
 
 const starships = fetch('https://swapi.dev/api/starships/')
     .then(blob => blob.json())
-    .catch(err => console.error('fetching starships: ', err))
+    .catch(err => {
+      errors['loading'].push('starships data failed to load');
+      errors['check_for_error_load'] = true;
+      errors['starships_internal'] = err;
+    }) 
 
 const planets = fetch('https://swapi.dev/api/planets/')
     .then(blob => blob.json())
-    .catch(err => console.error('fetching planets: ',err))
+    .catch(err => {
+      errors['loading'].push('planets data failed to load');
+      errors['check_for_error_load'] = true;
+      errors['planets_internal'] = err;    
+    })
 
 const people = fetch('https://swapi.dev/api/people/')
     .then(blob => blob.json())
-    .catch(err => console.error('fetching people: ',err))
+    .catch(err => {
+      errors['loading'].push('people data failed to load');
+      errors['check_for_error_load'] = true;
+      errors['people_internal'] = err;    
+    })
 
 Promise.all([starships, planets, people])
   .then(values => {
-      try {
-        intro.innerHTML = 'Data is ready, have a nice day.';
-        mainLoader.remove();
-        return data.push(...values);
-      } catch(err){
-        console.log(err)
-      }
+        if(!errors.check_for_error_load){ 
+          intro.innerHTML = 'Data is ready, have a nice day.';
+          mainLoader.remove();
+          return data.push(...values);
+          } else {
+            mainLoader.remove();
+            intro.innerHTML = 'Please check connection and reload'
+          }
+
     })
   .catch(err => err)
 
@@ -59,15 +77,15 @@ function renderData(){
       `)
       const keys = additionalInfo(matches, index);
       return `
-      <article>
+      <article class="details" style="height: 60px; overflow: hidden; display: block;">
         <h4>${name}</h4>
-        <ul class="details redacted">
+        <ul>
           ${keys}
         </ul>
       </article>
       `
     }).join(' ')
-    container.innerHTML = item
+    container.innerHTML = item;
     targetArticles()
   } catch(err) {
     if (err instanceof TypeError){
@@ -78,7 +96,15 @@ function renderData(){
 
 function targetArticles(){
   const a = document.querySelectorAll('article')
-  a.forEach(one => one.addEventListener('click', modifyArticles))
+  a.forEach(one => one.addEventListener('click', target))
+}
+
+function target(){
+  let change = this.style  
+  let changes = (change.height === '60px') ? change.height = '500px' : change.height = '60px'
+  changes = (change.overflow === 'hidden') ? change.overflow = 'auto' : change.overflow = 'hidden'
+  changes = (change.display === 'block') ? change.overflow = 'none' : change.overflow = 'block'
+  return changes
 }
 
 function modifyArticles(){
