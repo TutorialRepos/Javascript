@@ -12,26 +12,48 @@
 <body>
   <nav>
     <ul>
-      <li><a href="#about">about</a></li>
-      <li><a href="#search">search</a></li>
+      <li><a href="#aboutSection" id="aboutS">about</a></li>
+      <li><a href="#searchSection" id="searchS">search</a></li>
       <li id="calendar"></li>
     </ul>
   </nav>
-  <input type="search" id="finder" placeholder="SEARCH" name="search" value="">
-  <select name="category" id="category">
-    <option value=0 selected>starships</option>
-    <option value=1>planets</option>
-    <option value=2>people</option>
-  </select> 
-  </input>
 
-  <div class="error"></div>
+  <div id="searchSection" style="display:none">
+    <input type="search" id="finder" placeholder="SEARCH" name="search" value="">
+    <select name="category" id="category">
+      <option value=0 selected>starships</option>
+      <option value=1>planets</option>
+      <option value=2>people</option>
+    </select> 
+    </input>
+    <div class="error"></div>
+    <div class="listOfData">
+      <p id="intro">
+        Acquiring data. . .    
+        <div id="mainLoader" class="loader"></div>
+      </p>
+    </div>
+  </div>
 
-  <div class="listOfData">
-    <p id="intro">
-      Acquiring data. . .    
-      <div id="mainLoader" class="loader"></div>
-    </p>
+  <div class="about" id="aboutSection" style="display:block;">
+    <h1>Mini project 2</h1>
+    <h3>Objective:</h3>
+    <div>
+      Create another mini project<br>
+      Use commands from previous exercises
+    </div>
+    <div>
+      Access "Starwars API" via fetch<br>
+      Use try.catch, then.catch and promise.all<br>
+      Create a loading spinner<br>
+      Add an error object for error handling <br>
+    </div>
+    <div>
+      Use vanilla Javascript
+    </div>
+    <div>
+      Display data using cards<br>
+    </div>
   </div>
 
   <script src="./time.js"></script>

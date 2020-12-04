@@ -38,8 +38,17 @@ nav ul > li {
 }
 
 nav ul > li > a {
+  text-transform: uppercase;
   font-family: monospace;
   text-decoration: none;
+  font-size: 1.5em;
+  color: blue;
+}
+
+nav ul > li > a:hover {
+  transition: .1s;
+  color: red;
+  text-decoration: underline;
 }
 
 article:hover {
@@ -57,7 +66,12 @@ article:hover {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.details{
+.details > ul {
+  line-height: 28px;
+  font-family: calibri;
+}
+
+.details > ul > li{
   list-style: none;
 }
 
@@ -95,7 +109,31 @@ article:hover {
   margin-top: 20px;
 }
 
-/* 
-target:
+.about {
+  transition-delay: 5s;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  border: 1px solid lightgray;
+  width: 40%;
+  margin: auto;
+  border-radius: 10px;
+  padding: 10px 2px 10px 2px;
+}
 
-*/
+.about > h1 {
+  text-transform: uppercase;
+}
+
+.about > h3 {
+   text-align: left;
+   padding: 15px 65px 0px 45px;
+}
+
+.about > div {
+  padding: 15px 65px 5px 45px;
+  text-align: justify;
+}
+
+.about > div:last-child {
+  padding-bottom: 50px;
+}

@@ -6,6 +6,15 @@ const mainLoader = document.querySelector("#mainLoader");
 const calendar = document.querySelector("#calendar");
 const errorMessage = document.querySelector(".error");
 const errorBlob = document.querySelector(".error");
+const about = document.querySelector('#aboutS')
+const search = document.querySelector('#searchS')
+
+const sectionAbout = document.querySelector('#aboutSection')
+const sectionSearch = document.querySelector('#searchSection')
+
+about.addEventListener('click', aboutSection)
+search.addEventListener('click', searchSection)
+
 const pageID = "MP2 index";
 
 finder.addEventListener("click", renderData);
@@ -184,4 +193,26 @@ function shortenDateString(str) {
   return str.slice(0, 10);
 }
 
+function searchSection(){
+  sectionSearch.style.display = "block";
+  sectionAbout.style.display = "none";
+}
+
+function aboutSection(){
+  sectionSearch.style.display = "none";
+  sectionAbout.style.display = "block";
+}
+
+function toggleSection(){
+  if(sectionSearch.style.display === "block"){
+    sectionSearch.style.display = "none";
+    sectionAbout.style.display = "block";
+  } else {
+    sectionSearch.style.display = "block";
+    sectionAbout.style.display = "none";
+  }
+}
+
 renderData();
+
+// separate toggle into two different functions
