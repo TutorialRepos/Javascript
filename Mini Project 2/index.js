@@ -37,36 +37,26 @@ function readResponseAsJson(response) {
 function constructError(location, message) {
   errors[location] = message;
   errors["check_for_error_load"] = true;
-  return;
+  return errors;
 }
 
-function fetchJson(path) {
-  fetch(path).then;
+function errorOnLoad(response){
+  if(response.check_for_error_load){
+    return intro.innerHTML = 'Failed to load data, please refresh';
+  }
 }
 
-const starships = fetch("https://swapi.dev/api/starships/")
-  .then(validateResponse)
-  .then(readResponseAsJson)
-  .catch((err) => {
-    errors["fetch"].push(`starships:${pageID} line 45 ${err.message}`);
-    errors["check_for_error_on_load"] = true;
-  });
+function fetchJSON(url, error){
+  return fetch(url)
+    .then(validateResponse)
+    .then(readResponseAsJson)
+    .catch((err) => constructError(error, err.message))
+    .catch(errorOnLoad)
+}
 
-const planets = fetch("https://swapi.dev/api/planets/")
-  .then(validateResponse)
-  .then(readResponseAsJson)
-  .catch((err) => {
-    errors["fetch"].push(`planets: ${pageID} line 53 ${err.message}`);
-    errors["check_for_error_on_load"] = true;
-  });
-
-const people = fetch("https://swapi.dev/api/people/")
-  .then(validateResponse)
-  .then(readResponseAsJson)
-  .catch((err) => {
-    errors["fetch"].push(`people: ${pageID} line 60 ${err.message}`);
-    errors["check_for_error_on_load"] = true;
-  });
+const starships = fetchJSON("https://swapi.dev/api/starships/","starship fetch index 57")
+const planets = fetchJSON("https://swapi.dev/api/planets/","planets fetch index 58")
+const people = fetchJSON("https://swapi.dev/api/people/","people fetch index 59")
 
 Promise.all([starships, planets, people])
   .then((values) => {
