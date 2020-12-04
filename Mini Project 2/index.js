@@ -20,6 +20,7 @@ window.addEventListener("load", renderData);
 const data = [];
 const errors = {};
 errors.loading = [];
+errors.renderData = [];
 errors.check_for_error_load = false;
 const session = {};
 
@@ -34,29 +35,45 @@ function readResponseAsJson(response) {
   return response.json();
 }
 
-function constructError(location, message) {
-  errors[location] = message;
-  errors["check_for_error_load"] = true;
+function constructError(group, location, message) {
+  if(group === "loading"){
+    loadingErrorOn();
+  }
+  errors[group].push(`${location} ${message}`)
   return errors;
 }
 
-function errorOnLoad(response){
-  if(response.check_for_error_load){
-    return intro.innerHTML = 'Failed to load data, please refresh';
+function loadingErrorOn(){
+  errors["check_for_error_load"] = true;
+  return errors
+}
+
+function errorOnLoad(response) {
+  if (response.check_for_error_load) {
+    return (intro.innerHTML = "Failed to load data, please refresh");
   }
 }
 
-function fetchJSON(url, error){
+function fetchJSON(url, error) {
   return fetch(url)
     .then(validateResponse)
     .then(readResponseAsJson)
-    .catch((err) => constructError(error, err.message))
-    .catch(errorOnLoad)
+    .catch((err) => constructError('loading', error, err.message))
+    .catch(errorOnLoad);
 }
 
-const starships = fetchJSON("https://swapi.dev/api/starships/","starship fetch index 57")
-const planets = fetchJSON("https://swapi.dev/api/planets/","planets fetch index 58")
-const people = fetchJSON("https://swapi.dev/api/people/","people fetch index 59")
+const starships = fetchJSON(
+  "https://swapi.dev/api/starships/",
+  `${pageID} starship fetch index 57`
+);
+const planets = fetchJSON(
+  "https://swapi.dev/api/planets/",
+  `${pageID} planets fetch index 58`
+);
+const people = fetchJSON(
+  "https://swapi.dev/api/people/",
+  `${pageID} people fetch index 59`
+);
 
 Promise.all([starships, planets, people])
   .then((values) => {
@@ -105,7 +122,7 @@ function renderData() {
     targetArticles();
   } catch (err) {
     if (err instanceof TypeError) {
-      session["renderData"] = err;
+      constructError("renderData", `${pageID} renderData 96 `, err)
     }
   }
 }
@@ -134,11 +151,6 @@ function target() {
       ? (change.overflow = "none")
       : (change.overflow = "block");
   return changes;
-}
-
-function modifyArticles() {
-  const detail = this.querySelector(".details");
-  detail.classList.toggle("redacted");
 }
 
 function additionalInfo(data, index) {
