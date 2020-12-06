@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+    const p = document.querySelector('p');
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    const he = 90;
+
+    // Regular
+      console.log('hello')
+
+    // Interpolated
+      console.log(`${he}`)
+      console.log('test: %s', 'hello')
+
+    // Styled
+      console.log('%c styled','color: red;')
+
+    // warning!
+      console.warn('warning!')
+
+    // Error :|
+      console.error('error!')
+
+    // Info
+      console.info("one day in the year of the fox")
+
+    // Testing
+      console.assert(false)
+      console.assert(p.classList.contains('something', "doesn't exist"))
+
+    // clearing
+      console.clear()
+
+
+    // Viewing DOM Elements
+      console.dir(p)
+
+    // Grouping together
+      dogs.forEach(one => {
+        console.group(`${one.name}`)
+        // insert any information for said group
+        console.groupEnd()
+      })
+
+    // counting
+    console.count('test')
+    console.count('test')
+
+    // timing
+    console.time('timestamp')
+      // fetch something
+    console.timeEnd('timestamp')
+
+      // also check performance.now()
+      check = performance.now()
+      // fetch something
+      check2 = performance.now()
+      console.log(`it took ${check2 - check} ms to finish`)
+
+  </script>
+</body>
+</html>
