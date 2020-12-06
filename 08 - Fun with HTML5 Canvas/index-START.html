@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+  <style>
+    .indicator {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="indicator">[]</div>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+const canvas = document.querySelector('#draw');
+const ctx = canvas.getContext('2d');
+const ind = document.querySelector('.indicator')
+let stroke = 1;
+const hue = 0;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+ctx.strokeStyle = `black`;
+ctx.lineJoin =  'round';
+ctx.lineCap = 'round';
+
+let isDrawing = false;
+
+function draw(e){
+  let [lastX, lastY] = [e.offsetX, e.offsetY]
+  if(!isDrawing) return;
+  ctx.beginPath();
+  ctx.moveTo(lastX, lastY);
+  ctx.lineTo(e.offsetX, e.offsetY)
+  ctx.stroke()
+}
+
+
+function cord(e){
+  ind.innerHTML = `
+  X: ${e.offsetX} Y: ${e.offsetY}
+  stroke: ${stroke}
+  `
+  stroke > 100 ? stroke=30 : stroke++;
+  ctx.lineWidth = stroke;
+  ctx.strokeStyle = `hsla(${e.offsetX},${e.offsetY}%,50%,.8)`;
+}
+
+canvas.addEventListener('pointermove', cord);
+
+canvas.addEventListener('pointerdown' , (e)=> {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY];
+})
+
+canvas.addEventListener('pointermove', draw);
+canvas.addEventListener('pointerup', ()=> isDrawing = false);
+canvas.addEventListener('pointerout', ()=> isDrawing = false);
+
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>
