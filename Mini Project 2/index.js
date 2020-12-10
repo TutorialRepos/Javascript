@@ -214,5 +214,3 @@ function toggleSection() {
 }
 
 renderData();
-
-// separate toggle into two different functions
