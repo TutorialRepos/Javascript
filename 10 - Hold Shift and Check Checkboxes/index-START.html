@@ -97,30 +97,53 @@
 
 <script>
   const items = document.querySelectorAll("input[type='checkbox']");
+  
+  let lastChecked;
 
-  function firstCheck(stop){
-    let a = 0;
-    items.forEach((one, index) => {
-      if(index < stop && one.checked === true){
-        a = index
-      }
-    })
-    return a;
+  function handleCheck(e){
+    let inbetween = false;
+    if(e.shiftKey && this.checked){
+      items.forEach(one => {
+      if(one === this || one === lastChecked) {
+        inbetween = !inbetween;
+      }  
+      if(inbetween){
+        one.checked = true;
+        }
+      })
+    } 
+    lastChecked = this
   }
 
-  // trigger during e.shiftKey
-  items.forEach((one, index) => one.addEventListener('click', (e)=>{
-    if(e.shiftKey){
-      const start = firstCheck(index)
-      checkBoxes(start, index)
-    }
-  }))
+  items.forEach(one => one.addEventListener('click', handleCheck))
 
-  function checkBoxes(start, stop){
-    return items.forEach((value, index) => {
-        if(index >= start && index < stop) value.checked = true;
-    })  
-  }
+
+  // WRONG IMPLEMENTATION 
+  // it only works in ascending order
+
+  // function firstCheck(stop){
+  //   let a = 0;
+  //   items.forEach((one, index) => {
+  //     if(index < stop && one.checked === true){
+  //       a = index
+  //     }
+  //   })
+  //   return a;
+  // }
+
+  // // trigger during e.shiftKey
+  // items.forEach((one, index) => one.addEventListener('click', (e)=>{
+  //   if(e.shiftKey){
+  //     const start = firstCheck(index)
+  //     checkBoxes(start, index)
+  //   }
+  // }))
+
+  // function checkBoxes(start, stop){
+  //   return items.forEach((value, index) => {
+  //       if(index >= start && index < stop) value.checked = true;
+  //   })  
+  // }
 
 </script>
 </body>
