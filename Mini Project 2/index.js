@@ -6,14 +6,14 @@ const mainLoader = document.querySelector("#mainLoader");
 const calendar = document.querySelector("#calendar");
 const errorMessage = document.querySelector(".error");
 const errorBlob = document.querySelector(".error");
-const about = document.querySelector('#aboutS')
-const search = document.querySelector('#searchS')
+const about = document.querySelector("#aboutS");
+const search = document.querySelector("#searchS");
 
-const sectionAbout = document.querySelector('#aboutSection')
-const sectionSearch = document.querySelector('#searchSection')
+const sectionAbout = document.querySelector("#aboutSection");
+const sectionSearch = document.querySelector("#searchSection");
 
-about.addEventListener('click', aboutSection)
-search.addEventListener('click', searchSection)
+about.addEventListener("click", aboutSection);
+search.addEventListener("click", searchSection);
 
 const pageID = "MP2 index";
 
@@ -45,16 +45,16 @@ function readResponseAsJson(response) {
 }
 
 function constructError(group, location, message) {
-  if(group === "loading"){
+  if (group === "loading") {
     loadingErrorOn();
   }
-  errors[group].push(`${location} ${message}`)
+  errors[group].push(`${location} ${message}`);
   return errors;
 }
 
-function loadingErrorOn(){
+function loadingErrorOn() {
   errors["check_for_error_load"] = true;
-  return errors
+  return errors;
 }
 
 function errorOnLoad(response) {
@@ -67,7 +67,7 @@ function fetchJSON(url, error) {
   return fetch(url)
     .then(validateResponse)
     .then(readResponseAsJson)
-    .catch((err) => constructError('loading', error, err.message))
+    .catch((err) => constructError("loading", error, err.message))
     .catch(errorOnLoad);
 }
 
@@ -131,7 +131,7 @@ function renderData() {
     targetArticles();
   } catch (err) {
     if (err instanceof TypeError) {
-      constructError("renderData", `${pageID} renderData 96 `, err)
+      constructError("renderData", `${pageID} renderData 96 `, err);
     }
   }
 }
@@ -193,18 +193,18 @@ function shortenDateString(str) {
   return str.slice(0, 10);
 }
 
-function searchSection(){
+function searchSection() {
   sectionSearch.style.display = "block";
   sectionAbout.style.display = "none";
 }
 
-function aboutSection(){
+function aboutSection() {
   sectionSearch.style.display = "none";
   sectionAbout.style.display = "block";
 }
 
-function toggleSection(){
-  if(sectionSearch.style.display === "block"){
+function toggleSection() {
+  if (sectionSearch.style.display === "block") {
     sectionSearch.style.display = "none";
     sectionAbout.style.display = "block";
   } else {
